@@ -7,17 +7,17 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * 對原生 {@link ThreadPoolExecutor} 的一個包裝類
+ * A wrapper class around the native {@link ThreadPoolExecutor}.
  */
 public class AdaptiveThreadPoolExecutor implements ExecutorService {
 
     /**
-     * 執行緒池的唯一識別名稱
+     * The unique name for identifying this thread pool.
      */
     private final String poolName;
 
     /**
-     * 被外層呼叫，作為任務代理的原生執行緒池
+     * The internal, native executor to which all task execution is delegated.
      */
     private final ThreadPoolExecutor internalExecutor;
 
@@ -39,6 +39,17 @@ public class AdaptiveThreadPoolExecutor implements ExecutorService {
                 threadFactory,
                 handler
         );
+    }
+
+    /**
+     * Constructor for testing or advanced configuration (Dependency Injection).
+     *
+     * @param poolName         The name of the thread pool.
+     * @param internalExecutor An externally-provided {@link ThreadPoolExecutor} instance.
+     */
+    public AdaptiveThreadPoolExecutor(String poolName, ThreadPoolExecutor internalExecutor) {
+        this.poolName = poolName;
+        this.internalExecutor = internalExecutor;
     }
 
     @Override
@@ -80,14 +91,14 @@ public class AdaptiveThreadPoolExecutor implements ExecutorService {
 
     @NotNull
     @Override
-    public <T> Future<T> submit(@NotNull Runnable task, T result) {
-        return internalExecutor.submit(task, result);
+    public Future<?> submit(@NotNull Runnable task) {
+        return internalExecutor.submit(task);
     }
 
     @NotNull
     @Override
-    public Future<?> submit(@NotNull Runnable task) {
-        return internalExecutor.submit(task);
+    public <T> Future<T> submit(@NotNull Runnable task, T result) {
+        return internalExecutor.submit(task, result);
     }
 
     @NotNull
