@@ -128,4 +128,147 @@ class AdaptiveThreadPoolExecutorTest {
             assertSame(mockFuture, returnedFuture, "The returned Future should be the same instance as the one from the internal executor");
         }
     }
+
+    @Nested
+    @DisplayName("State Exposure Tests")
+    class StateExposureTests {
+
+        /**
+         * Test Objective:
+         * Verify that the getCorePoolSize() method correctly queries and returns the corePoolSize
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getCorePoolSize should return value from internal executor")
+        void getCorePoolSize_shouldReturnInternalValue() {
+            // 1. Arrange
+            final int EXPECTED_CORE_POOL_SIZE = 10;
+            when(internalExecutor.getCorePoolSize()).thenReturn(EXPECTED_CORE_POOL_SIZE);
+            // 2. Act
+            int actual = adaptiveExecutor.getCorePoolSize();
+            // 3. Assert
+            assertEquals(EXPECTED_CORE_POOL_SIZE, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that the getMaximumPoolSize() method correctly queries and returns the maximumPoolSize
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getMaximumPoolSize should return value from internal executor")
+        void getMaximumPoolSize_shouldReturnInternalValue() {
+            // 1. Arrange
+            final int EXPECTED_MAXIMUM_POOL_SIZE = 10;
+            when(internalExecutor.getMaximumPoolSize()).thenReturn(EXPECTED_MAXIMUM_POOL_SIZE);
+            // 2. Act
+            int actual = adaptiveExecutor.getMaximumPoolSize();
+            // 3. Assert
+            assertEquals(EXPECTED_MAXIMUM_POOL_SIZE, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that the getPoolSize() method correctly queries and returns the poolSize
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getPoolSize should return value from internal executor")
+        void getPoolSize_shouldReturnInternalValue() {
+            // 1. Arrange
+            final int EXPECTED_POOL_SIZE = 10;
+            when(internalExecutor.getPoolSize()).thenReturn(EXPECTED_POOL_SIZE);
+            // 2. Act
+            int actual = adaptiveExecutor.getPoolSize();
+            // 3. Assert
+            assertEquals(EXPECTED_POOL_SIZE, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that the getActiveCount() method correctly queries and returns the activeCount
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getActiveCount should return value from internal executor")
+        void getActiveCount_shouldReturnInternalValue() {
+            // 1. Arrange
+            final int EXPECTED_ACTIVE_COUNT = 10;
+            when(internalExecutor.getActiveCount()).thenReturn(EXPECTED_ACTIVE_COUNT);
+            // 2. Act
+            int actual = adaptiveExecutor.getActiveCount();
+            // 3. Assert
+            assertEquals(EXPECTED_ACTIVE_COUNT, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that the getLargestPoolSize() method correctly queries and returns the largestPoolSize
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getLargestPoolSize should return value from internal executor")
+        void getLargestPoolSize_shouldReturnInternalValue() {
+            // 1. Arrange
+            final int EXPECTED_LARGEST_POOL_SIZE = 10;
+            when(internalExecutor.getLargestPoolSize()).thenReturn(EXPECTED_LARGEST_POOL_SIZE);
+            // 2. Act
+            int actual = adaptiveExecutor.getLargestPoolSize();
+            // 3. Assert
+            assertEquals(EXPECTED_LARGEST_POOL_SIZE, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that the getTaskCount() method correctly queries and returns the taskCount
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getTaskCount should return value from internal executor")
+        void getTaskCount_shouldReturnInternalValue() {
+            // 1. Arrange
+            final long EXPECTED_TASK_COUNT = 10L;
+            when(internalExecutor.getTaskCount()).thenReturn(EXPECTED_TASK_COUNT);
+            // 2. Act
+            long actual = adaptiveExecutor.getTaskCount();
+            // 3. Assert
+            assertEquals(EXPECTED_TASK_COUNT, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that the getCompletedTaskCount() method correctly queries and returns the completedTaskCount
+         * from the internalExecutor.
+         */
+        @Test
+        @DisplayName("getCompletedTaskCount should return value from internal executor")
+        void getCompletedTaskCount_shouldReturnInternalValue() {
+            // 1. Arrange
+            final long EXPECTED_COMPLETED_TASK_COUNT = 10L;
+            when(internalExecutor.getCompletedTaskCount()).thenReturn(EXPECTED_COMPLETED_TASK_COUNT);
+            // 2. Act
+            long actual = adaptiveExecutor.getCompletedTaskCount();
+            // 3. Assert
+            assertEquals(EXPECTED_COMPLETED_TASK_COUNT, actual);
+        }
+
+        /**
+         * Test Objective:
+         * Verify that getQueue() returns the same queue instance held by the internal executor.
+         */
+        @Test
+        @DisplayName("getQueue should return the internal executor's queue")
+        @SuppressWarnings("unchecked")
+        void getQueue_shouldReturnInternalQueue() {
+            // 1. Arrange
+            BlockingQueue<Runnable> mockQueue = mock(BlockingQueue.class);
+            when(internalExecutor.getQueue()).thenReturn(mockQueue);
+
+            // 2. Act
+            BlockingQueue<Runnable> actualQueue = adaptiveExecutor.getQueue();
+
+            // 3. Assert
+            assertSame(mockQueue, actualQueue, "The returned queue should be the same instance as the internal one.");
+        }
+    }
 }
