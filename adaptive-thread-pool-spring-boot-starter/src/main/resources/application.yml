@@ -1,0 +1,16 @@
+adaptive-thread-pool:
+  # Global Switch
+  enabled: true
+  pools:
+    -
+      pool-name: "default-async-pool"
+      core-size: 10
+      max-size: 200。
+      queue-capacity: 1000
+      keep-alive-time-seconds: 60
+    -
+      pool-name: "io-intensive-pool"
+      core-size: 50
+      max-size: 500
+      queue-capacity: 2000
+      keep-alive-time-seconds: 120
